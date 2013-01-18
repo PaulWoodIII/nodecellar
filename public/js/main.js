@@ -2,9 +2,13 @@ var AppRouter = Backbone.Router.extend({
 
     routes: {
         ""                  : "home",
-        "wines"	: "list",
-        "wines/page/:page"	: "list",
+        "wines"	            : "wineslist",
+        "cups"	            : "list",
+        "wines/page/:page"	: "wineslist",
+        "cups/page/:page"	: "list",
+        "cups/add"          : "addCup",
         "wines/add"         : "addWine",
+        "cups/:id"          : "cupDetails",
         "wines/:id"         : "wineDetails",
         "about"             : "about"
     },
@@ -22,7 +26,7 @@ var AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem('home-menu');
     },
 
-	list: function(page) {
+	wineslist: function(page) {
         var p = page ? parseInt(page, 10) : 1;
         var wineList = new WineCollection();
         wineList.fetch({success: function(){
@@ -30,6 +34,29 @@ var AppRouter = Backbone.Router.extend({
         }});
         this.headerView.selectMenuItem('home-menu');
     },
+	
+	list: function(page) {
+        var p = page ? parseInt(page, 10) : 1;
+        var cupList = new CupCollection();
+        cupList.fetch({success: function(){
+            $("#content").html(new CupListView({model: cupList, page: p}).el);
+        }});
+        this.headerView.selectMenuItem('home-menu');
+    },
+
+    cupDetails: function (id) {
+        var cup = new Cup({_id: id});
+        cup.fetch({success: function(){
+            $("#content").html(new CupView({model: cup}).el);
+        }});
+        this.headerView.selectMenuItem();
+    },
+
+	addCup: function() {
+        var cup = new Cup();
+        $('#content').html(new CupView({model: cup}).el);
+        this.headerView.selectMenuItem('add-menu');
+	},
 
     wineDetails: function (id) {
         var wine = new Wine({_id: id});
@@ -55,7 +82,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HomeView', 'HeaderView', 'WineView', 'WineListItemView', 'AboutView'], function() {
+utils.loadTemplate(['HomeView', 'HeaderView', 'WineView', 'CupView', 'WineListItemView','CupListItemView', 'AboutView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

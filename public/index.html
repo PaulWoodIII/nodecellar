@@ -48,6 +48,13 @@
     <div class="row-fluid">
         <div id="content" class="span12>"></div>
     </div>
+	
+	<form method="post" enctype="multipart/form-data" action="/file-upload">
+	    <input type="text" name="username">
+	    <input type="password" name="password">
+	    <input type="file" name="thumbnail">
+	    <input type="submit">
+	</form>
 
     <footer class="footer">
         <p class="pull-right"><a href="#">Back Home</a></p>
@@ -77,8 +84,11 @@
 <script src="js/views/header.js"></script>
 <script src="js/views/home.js"></script>
 <script src="js/views/winelist.js"></script>
+<script src="js/views/cuplist.js"></script>
 <script src="js/views/winedetails.js"></script>
 <script src="js/views/about.js"></script>
+<script src="js/views/cuplist.js"></script>
+<script src="js/views/cupdetails.js"></script>
 <script src="js/main.js"></script>
 
 </body>

@@ -1,4 +1,4 @@
-window.WineView = Backbone.View.extend({
+window.CupView = Backbone.View.extend({
 
     initialize: function () {
         this.render();
@@ -12,7 +12,7 @@ window.WineView = Backbone.View.extend({
     events: {
         "change"            : "change",
         "click .save"       : "beforeSave",
-        "click .delete"     : "deleteWine",
+        "click .delete"     : "deleteCup",
         "drop #picture"     : "dropHandler",
         "dragover #picture" : "dragoverHandler"
     },
@@ -43,18 +43,18 @@ window.WineView = Backbone.View.extend({
             utils.displayValidationErrors(check.messages);
             return false;
         }
-        this.saveWine();
+        this.saveCup();
         return false;
     },
 
-    saveWine: function () {
+    saveCup: function () {
         var self = this;
         console.log('before save');
         this.model.save(null, {
             success: function (model) {
                 self.render();
-                app.navigate('wines/' + model.id, false);
-                utils.showAlert('Success!', 'Wine saved successfully', 'alert-success');
+                app.navigate('cups/' + model.id, false);
+                utils.showAlert('Success!', 'Cup saved successfully', 'alert-success');
             },
             error: function () {
                 utils.showAlert('Error', 'An error occurred while trying to delete this item', 'alert-error');
@@ -62,10 +62,10 @@ window.WineView = Backbone.View.extend({
         });
     },
 
-    deleteWine: function () {
+    deleteCup: function () {
         this.model.destroy({
             success: function () {
-                alert('Wine deleted successfully');
+                alert('Cup deleted successfully');
                 window.history.back();
             }
         });
