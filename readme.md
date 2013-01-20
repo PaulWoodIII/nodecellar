@@ -1,11 +1,34 @@
-#nodecellar
+#Post Images
 
-Inventory of your alocholic beverage of choice. You better like wine!
+A user Post an image. Those images stream straight to mongodb. The app resizes the images and creates a "post" on the DB with some other insteresting information. 
 
 
 ## To run the application on your own Computer
 
-Actually you probabaly shouldn't... Right not the project is out of whack. Package.json is missing included modules
+Actually you probabaly shouldn't... 
+
+This application is not ready for a production use yet but you can do the regular `npm install` and `node server.js`
+
+
+## To Do
+
+* Remove Wine and Cups
+
+* Create a Post Object
+
+* Form for Posting Images
+
+* Authentication
+
+* OAuth
+
+* Display Images
+
+* Paging
+
+#Going on behind the scenes
+
+I'm using [connect-multipart-gridform](https://github.com/aheckmann/connect-multipart-gridform) to stream images straight into MongoDB. I wanted to do this instead of using nginx and the file system. In the future though I'll definately think about nginx for hosting images. 
 
 
 #Forked From:
