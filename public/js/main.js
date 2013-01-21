@@ -2,15 +2,23 @@ var AppRouter = Backbone.Router.extend({
 
     routes: {
         ""                  : "home",
-        "wines"	            : "wineslist",
-        "cups"	            : "list",
+        "about"             : "about",
+				
+        "imageposts"	          : "imagePostList",
+        "imageposts/page/:page"	: "imagePostList",
+        "imageposts/add"          : "addImagePost",
+        "imageposts/:id"          : "imagePostDetails",
+        
+				"wines"	            : "wineslist",
         "wines/page/:page"	: "wineslist",
+        "wines/add"         : "addWine",
+        "wines/:id"         : "wineDetails",
+
+				"cups"	            : "list",
         "cups/page/:page"	: "list",
         "cups/add"          : "addCup",
-        "wines/add"         : "addWine",
-        "cups/:id"          : "cupDetails",
-        "wines/:id"         : "wineDetails",
-        "about"             : "about"
+        "cups/:id"          : "cupDetails"
+
     },
 
     initialize: function () {
@@ -25,6 +33,31 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(this.homeView.el);
         this.headerView.selectMenuItem('home-menu');
     },
+
+		imagePostList: function(page) {
+			
+	        var p = page ? parseInt(page, 10) : 1;
+	        var imagePostList = new ImagePostCollection();
+	        imagePostList.fetch({success: function(){
+	            $("#content").html(new ImagePostListView({model: imagePostList, page: p}).el);
+	        }});
+	        this.headerView.selectMenuItem('home-menu');
+	  },
+			
+    imagePostDetails: function (id) {
+			console.log('hello');
+        var imagepost = new ImagePost({_id: id});
+        imagepost.fetch({success: function(){
+            $("#content").html(new ImagePostView({model: imagepost}).el);
+        }});
+        this.headerView.selectMenuItem();
+    },
+
+		addImagePost: function() {
+	        var imagepost = new ImagePost();
+	        $('#content').html(new ImagePostView({model: imagepost}).el);
+	        this.headerView.selectMenuItem('add-menu');
+		},
 
 	wineslist: function(page) {
         var p = page ? parseInt(page, 10) : 1;
@@ -82,7 +115,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HomeView', 'HeaderView', 'WineView', 'CupView', 'WineListItemView','CupListItemView', 'AboutView'], function() {
+utils.loadTemplate(['HomeView', 'HeaderView', 'WineView', 'CupView', 'WineListItemView','CupListItemView', 'AboutView', 'ImagePostListItemView', 'ImagePostView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

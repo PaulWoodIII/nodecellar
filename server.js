@@ -3,6 +3,7 @@ var express = require('express'),
 	  http = require('http'),
 	  wine = require('./routes/wines'),
 	  cup  = require('./routes/cups'),
+	  imagepost  = require('./routes/imageposts'),
     mongo = require('mongodb'),
     Server = mongo.Server,
     Db = mongo.Db,
@@ -45,6 +46,14 @@ app.post('/cups', cup.addCup);
 app.put('/cups/:id', cup.updateCup);
 app.delete('/cups/:id', cup.deleteCup);
 
+//ImagePost
+app.get('/imageposts', imagepost.findAll);
+app.get('/imageposts/:id', imagepost.findById);
+app.get('/imageposts/:id/data', imagepost.findImageById);
+app.post('/imageposts', imagepost.addImagePost);
+//app.put('/imageposts/:id', imagepost.updateImage);
+//app.delete('/imageposts/:id', imagepost.deleteImagePost);
+
 app.get('/uploads', function(req,res){
   db.collection('fs.files', {safe:true}, function(err, collection) {
       if (err) {
@@ -67,12 +76,6 @@ app.get('/uploads/:id', function(req,res){
 	    console.log("this file was uploaded at "+gs.uploadDate);
 	});
 });
-
-app.get('/lastfile'), function(req,res){
-	var readstream = gfs.createReadStream('crud.png');
-	readstream.pipe(res);
-	//res.send(files);
-}
 
 app.post('/file-upload', function(req, res){
 

@@ -1,3 +1,33 @@
+window.ImagePost = Backbone.Model.extend({
+	urlRoot: "/imageposts",
+	idAttribute: "_id",
+  initialize: function () {
+      this.validators = {};
+  },
+
+  validateItem: function (key) {
+      return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
+  },
+
+  validateAll: function () {
+
+  },
+
+  defaults: {
+      _id: null,
+			image:null,
+			filename:null
+  }
+});
+
+window.ImagePostCollection = Backbone.Collection.extend({
+
+    model: ImagePost,
+
+    url: "/imageposts"
+
+});
+
 window.Cup = Backbone.Model.extend({
 
     urlRoot: "/cups",
