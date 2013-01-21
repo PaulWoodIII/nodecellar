@@ -5,16 +5,16 @@ var AppRouter = Backbone.Router.extend({
         "about"             : "about",
 				
         "imageposts"	          : "imagePostList",
-        "imageposts/page/:page"	: "imagePostList",
+        "imageposts/page/:page"	  : "imagePostList",
         "imageposts/add"          : "addImagePost",
         "imageposts/:id"          : "imagePostDetails",
         
-				"wines"	            : "wineslist",
+		"wines"	            : "wineslist",
         "wines/page/:page"	: "wineslist",
         "wines/add"         : "addWine",
         "wines/:id"         : "wineDetails",
 
-				"cups"	            : "list",
+		"cups"	            : "list",
         "cups/page/:page"	: "list",
         "cups/add"          : "addCup",
         "cups/:id"          : "cupDetails"
@@ -34,18 +34,18 @@ var AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem('home-menu');
     },
 
-		imagePostList: function(page) {
+	imagePostList: function(page) {
 			
-	        var p = page ? parseInt(page, 10) : 1;
-	        var imagePostList = new ImagePostCollection();
-	        imagePostList.fetch({success: function(){
-	            $("#content").html(new ImagePostListView({model: imagePostList, page: p}).el);
-	        }});
-	        this.headerView.selectMenuItem('home-menu');
-	  },
+	    var p = page ? parseInt(page, 10) : 1;
+	    var imagePostList = new ImagePostCollection();
+	    imagePostList.fetch({success: function(){
+	        $("#content").html(new ImagePostListView({model: imagePostList, page: p}).el);
+	    }});
+	    this.headerView.selectMenuItem('browse-menu');
+	},
 			
     imagePostDetails: function (id) {
-			console.log('hello');
+		
         var imagepost = new ImagePost({_id: id});
         imagepost.fetch({success: function(){
             $("#content").html(new ImagePostView({model: imagepost}).el);
@@ -53,11 +53,11 @@ var AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem();
     },
 
-		addImagePost: function() {
-	        var imagepost = new ImagePost();
-	        $('#content').html(new ImagePostView({model: imagepost}).el);
-	        this.headerView.selectMenuItem('add-menu');
-		},
+	addImagePost: function() {
+        var imagePost = new ImagePost();
+        $('#content').html(new ImagePostView({model: imagePost}).el);
+        this.headerView.selectMenuItem('add-menu');
+	},
 
 	wineslist: function(page) {
         var p = page ? parseInt(page, 10) : 1;
@@ -65,7 +65,7 @@ var AppRouter = Backbone.Router.extend({
         wineList.fetch({success: function(){
             $("#content").html(new WineListView({model: wineList, page: p}).el);
         }});
-        this.headerView.selectMenuItem('home-menu');
+        this.headerView.selectMenuItem('browse-menu');
     },
 	
 	list: function(page) {

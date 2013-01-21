@@ -11,11 +11,12 @@ window.ImagePostView = Backbone.View.extend({
 
     events: {
         "change"            : "change",
-        "click .save"       : "beforeSave",
+        "click .save"       : "beforeSaveImagePost",
         "click .delete"     : "deleteImagePost",
         "drop #picture"     : "dropHandler",
         "dragover #picture" : "dragoverHandler"
     },
+	
 
     change: function (event) {
         // Remove any existing alert message
@@ -36,9 +37,12 @@ window.ImagePostView = Backbone.View.extend({
         }
     },
 
-    beforeSave: function () {
+    beforeSaveImagePost: function () {
         var self = this;
         var check = this.model.validateAll();
+        console.log('before save');
+		console.log('check:' + check.isValid + " self: " + self);
+		
         if (check.isValid === false) {
             utils.displayValidationErrors(check.messages);
             return false;
@@ -47,14 +51,17 @@ window.ImagePostView = Backbone.View.extend({
         return false;
     },
 
+
     saveImagePost: function () {
         var self = this;
-        console.log('before save');
+		console.log('id:' + this.model.get("_id"));		
+		console.log('filename:' + this.model.get("filename"));
+		
         this.model.save(null, {
             success: function (model) {
                 self.render();
                 app.navigate('imageposts/' + model.id, false);
-                utils.showAlert('Success!', 'Image saved successfully', 'alert-success');
+                utils.showAlert('Success!', 'ImagePost saved successfully', 'alert-success');
             },
             error: function () {
                 utils.showAlert('Error', 'An error occurred while trying to delete this item', 'alert-error');
@@ -70,22 +77,23 @@ window.ImagePostView = Backbone.View.extend({
             }
         });
         return false;
-    },
-
-    dropHandler: function (event) {
-        event.stopPropagation();
-        event.preventDefault();
-        var e = event.originalEvent;
-        e.dataTransfer.dropEffect = 'copy';
-        this.pictureFile = e.dataTransfer.files[0];
-
-        // Read the image file from the local file system and display it in the img tag
-        var reader = new FileReader();
-        reader.onloadend = function () {
-            $('#picture').attr('src', reader.result);
-        };
-        reader.readAsDataURL(this.pictureFile);
-    },
+    }
+	,
+	
+	    dropHandler: function (event) {
+	        event.stopPropagation();
+	        event.preventDefault();
+	        var e = event.originalEvent;
+	        e.dataTransfer.dropEffect = 'copy';
+	        this.pictureFile = e.dataTransfer.files[0];
+	
+	        // Read the image file from the local file system and display it in the img tag
+	        var reader = new FileReader();
+	        reader.onloadend = function () {
+	            $('#picture').attr('src', reader.result);
+	        };
+	        reader.readAsDataURL(this.image);
+	    },
 	
 	dragoverHandler: function(event) {
 		event.preventDefault();
