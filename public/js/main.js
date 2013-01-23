@@ -47,15 +47,18 @@ var AppRouter = Backbone.Router.extend({
     imagePostDetails: function (id) {
 		
         var imagepost = new ImagePost({_id: id});
-        imagepost.fetch({success: function(){
-            $("#content").html(new ImagePostView({model: imagepost}).el);
-        }});
+        var imagefile = new ImageFile({_id: id});
+
+        $("#content").html(new ImagePostView(imagepost, imagefile).el);
+		
         this.headerView.selectMenuItem();
     },
 
 	addImagePost: function() {
-        var imagePost = new ImagePost();
-        $('#content').html(new ImagePostView({model: imagePost}).el);
+		console.log('add image post main.js');
+        var imagepost = new ImagePost();
+        var imagefile = new ImageFile();
+        $('#content').html(new ImagePostView(imagepost,imagefile).el);
         this.headerView.selectMenuItem('add-menu');
 	},
 
@@ -115,7 +118,7 @@ var AppRouter = Backbone.Router.extend({
 
 });
 
-utils.loadTemplate(['HomeView', 'HeaderView', 'WineView', 'CupView', 'WineListItemView','CupListItemView', 'AboutView', 'ImagePostListItemView', 'ImagePostView'], function() {
+utils.loadTemplate(['HomeView', 'HeaderView', 'ImagePostListItemView', 'ImagePostView', 'WineView', 'CupView', 'WineListItemView','CupListItemView', 'AboutView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

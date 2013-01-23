@@ -5,6 +5,7 @@ window.ImagePostListView = Backbone.View.extend({
     },
 
     render: function () {
+		console.log('page render');
         var imageposts = this.model.models;
         var len = imageposts.length;
         var startPos = (this.options.page - 1) * 8;

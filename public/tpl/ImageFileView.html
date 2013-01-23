@@ -1,0 +1,30 @@
+<div class="row-fluid status-bar">
+    <div class="span12">
+        <div class="alert alert-success" style="display: none">
+            <b>Success!</b> Image saved successfully
+        </div>
+    </div>
+</div>
+
+<div class="well span4 offset2">	
+	<form class="form-horizontal span6" >
+		<legend>Does my butt look big?</legend>
+		 <br/>
+         <label for="imagepostId" class="control-label">Id:</label>
+         <div class="controls">
+             <input id="imagepostId" name="id" type="text" value="<%= imagepost._id === null ? '' : imagepost._id %>" disabled/>
+         </div>
+						
+						
+		<br />
+						
+		<label for="filename" class="control-label">filename:</label>
+		<div class="controls">
+			<input type="text" name="filename" id="filename" value="<%= imagepost.filename === null ? '' : imagepost.filename %>" >
+		</div>
+
+		<div class="form-actions">
+			<button type="#" class="btn btn-primary">Save Changes</button>
+		</div>
+	</form>
+</div>
