@@ -1,50 +1,3 @@
-window.ImageFile = Backbone.Model.extend({
-		
-	urlRoot: "/imagefiles",
-	
-	idAttribute: "_id",
-    defaults: {
-        _id: null,
-        name: "",
-		image: null
-	},
-    initialize: function () {
-		
-		console.log('validate imagefile');
-		
-        this.validators = {};
-
-        this.validators.name = function (value) {
-            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a name"};
-        };
-
-	},
-		
-    validateItem: function (key) {
-        return (this.validators[key]) ? this.validators[key](this.get(key)) : {isValid: true};
-    },
-
-    // TODO: Implement Backbone's standard validate() method instead.
-    validateAll: function () {
-		
-		console.log('validate imagefile');
-		
-        var messages = {};
-
-        for (var key in this.validators) {
-            if(this.validators.hasOwnProperty(key)) {
-                var check = this.validators[key](this.get(key));
-                if (check.isValid === false) {
-                    messages[key] = check.message;
-                }
-            }
-        }
-
-        return _.size(messages) > 0 ? {isValid: false, messages: messages} : {isValid: true};
-    }
-	
-});
-
 window.ImagePost = Backbone.Model.extend({
 		
 	urlRoot: "/imageposts",
@@ -52,14 +5,37 @@ window.ImagePost = Backbone.Model.extend({
 	idAttribute: "_id",
     defaults: {
         _id: null,
+        imagefileid: "",
         filename: ""
 	},
     initialize: function () {
         this.validators = {};
 
         this.validators.filename = function (value) {
-            return value.length > 0 ? {isValid: true} : {isValid: false, message: "You must enter a filename"};
+			console.log("Validate filename");
+			console.log("Validate imagefileid");
+			if (value.length > 0){
+				console.log("Valid");
+				return {isValid: true};
+			}
+			else{
+				console.log("InValid");
+				return {isValid: false, message: "You must enter a filename"};
+			}
         };
+		
+        this.validators.imagefileid = function (value) {
+			console.log("Validate imagefileid");
+			if (value.length > 0){
+				console.log("Valid");
+				return {isValid: true};
+			}
+			else{
+				console.log("InValid");
+				return {isValid: false, message: "You must upload an Image"};
+			}
+        };
+		
 	},
 		
     validateItem: function (key) {

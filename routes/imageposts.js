@@ -36,7 +36,7 @@ exports.findAll = function(req,res){
 };
 
 exports.findById = function(req,res){
-
+	
   var id = req.params.id;
   console.log('Retrieving imagepost: ' + id);
   db.collection('imageposts', function(err, collection) {
@@ -143,9 +143,13 @@ exports.addImageFile = function(req, res){
 
 	var form = multipart.gridform({db:db,mongo:mongo});
 	
-	console.log("form.gridfsStream: " + form.gridfsStream);
+	console.log("form.gridfsStream: " + form.gridform);
 	
 	form.parse(req, function (err, fields, files) {
+		console.log("form.gridfsStream: " + err);
+		console.log("form.gridfsStream: " + fields);
+		console.log("form.gridfsStream: " + files);
+		
 		if (err) {
 		    console.log('Error Uploading: ' + err);
 		    res.send({'Error':err});

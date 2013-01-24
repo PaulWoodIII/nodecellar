@@ -47,9 +47,8 @@ var AppRouter = Backbone.Router.extend({
     imagePostDetails: function (id) {
 		
         var imagepost = new ImagePost({_id: id});
-        var imagefile = new ImageFile({_id: id});
 
-        $("#content").html(new ImagePostView(imagepost, imagefile).el);
+        $("#content").html(new ImagePostView(imagepost).el);
 		
         this.headerView.selectMenuItem();
     },
@@ -57,8 +56,7 @@ var AppRouter = Backbone.Router.extend({
 	addImagePost: function() {
 		console.log('add image post main.js');
         var imagepost = new ImagePost();
-        var imagefile = new ImageFile();
-        $('#content').html(new ImagePostView(imagepost,imagefile).el);
+        $('#content').html(new ImagePostView(imagepost).el);
         this.headerView.selectMenuItem('add-menu');
 	},
 

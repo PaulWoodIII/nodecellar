@@ -10,11 +10,11 @@ var express = require('express'),
 	GridStore = mongo.GridStore,
 	ObjectID = mongo.ObjectID,
 	fs = require('fs'),
+	formidable = require('formidable');
 	multipart = require('connect-multipart-gridform');
 		
 var server = new Server('localhost', 27017, {auto_reconnect: true});
 var db = new Db('winedb', server, {safe: true});
-var multipartoptions = { db: db, mongo: mongo };
 
 var app = express();
 
@@ -22,17 +22,18 @@ app.configure(function () {
     app.set('port', process.env.PORT || 3000);
     app.use(express.logger('dev'));  /* 'default', 'short', 'tiny', 'dev' */
 	app.use(express.static(path.join(__dirname, 'public')));
-	app.use(express.bodyParser());
-	app.use(multipart(multipartoptions),"/imagefiles");
+	
+	//app.use(multipart(multipartoptions),"/imagefiles");
 });
 
-// db.open(function(err, db) {
-//     if(!err) {
-//         console.log("Connected to 'winedb' database");
-// 				// var multipartoptions = { db: db, mongo: mongo };
-// 				// app.use(multipart(multipartoptions));
-//     }
-// });
+db.open(function(err, db) {
+    if(!err) {
+        console.log("Connected to 'winedb' database");
+		app.use(express.bodyParser());
+		var multipartoptions = { db: db, mongo: mongo };
+		app.use('/imagefiles',multipart(multipartoptions));
+    }
+});
 
 //Wine
 app.get('/wines', wine.findAll);
@@ -57,6 +58,35 @@ app.delete('/imageposts/:id', imagepost.deleteImagePost);
 
 //ImageFiles
 app.get('/imagefiles/:id/data', imagepost.findImageDataById);
+
+// app.post('/imagefiles', function(req, res){
+// 
+// 	var form = multipart.gridform({db:db,mongo:mongo});
+// 	
+// 	console.log("form.gridfsStream: " + form.gridform);
+// 	
+// 	form.parse(req, function (err, fields, files) {
+// 		console.log("form.err: " + err);
+// 		console.log("form.fields: " + fields);
+// 		console.log("form.files: " + files);
+// 		
+// 		if (err) {
+// 		    console.log('Error Uploading: ' + err);
+// 		    res.send({'Error':err});
+// 		} 
+// 		else{			
+// 			var image = files.imagefile;
+// 			console.log(image);
+// 			readFile = new GridStore(db, image.id, "r");
+// 			readFile.open(function(err, outfile){   
+// 				var stream = readFile.stream();
+// 				stream.pipe(res);
+// 				res.send(image);
+// 			});
+// 		}	
+// 	});
+// });		
+
 app.post('/imagefiles', imagepost.addImageFile);
 
 http.createServer(app).listen(app.get('port'), function () {
