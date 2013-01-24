@@ -11,13 +11,14 @@ window.ImagePostView = Backbone.View.extend({
 		  utils.addValidationError('The File APIs are not fully supported in this browser.');
 		}		
 		this.render();
+		
     },
 
     render: function () {
-		console.log('render');		
-		// var template = _.template( $("#ImagePostView").html(), {} ); 
+		console.log('render');	
+				
         $(this.el).html(this.template({imagepost:this.imagepost.toJSON()}));
-		// this.$el.html( template );
+		
         return this;
     },
 
@@ -26,6 +27,11 @@ window.ImagePostView = Backbone.View.extend({
         "click .save"            : "beforeSaveImagePost",
         "click .delete"          : "deleteImagePost"
     },
+	
+	changeFileId: function(newid){
+		console.log('afun!');
+		this.imagepost.set({imagefileid: newid})
+	},
 
     changePost: function (event) {
 		

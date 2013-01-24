@@ -48,6 +48,43 @@ window.utils = {
 
     hideAlert: function() {
         $('.alert').hide();
-    }
+    },
+	addupload: function() {
+		
+		console.log(window);
+		
+		console.log('called addupload');
+		console.log('after render: ' + 	$('#fileupload').val());
+		
+	    $('#fileupload').fileupload({
+	        dataType: 'json',
+		    progressall: function (e, data) {
+		        var progress = parseInt(data.loaded / data.total * 100, 10);
+		        $('#progress .bar').css(
+		            'width',
+		            progress + '%'
+		        );
+		    },
+			add: function (e, data) {
+				console.log('added');
+				data.context = $('.uploadfile')
+					.css('display','block')
+					.click(function () {
+						utils.showAlert('Uploading','...', 'alert-warning');
+						var jqXHR = data.submit()
+								.success(function (result, textStatus, jqXHR) {
+									$('#imagefileId').val(result.id);								
+									$('#uploadedimage').attr("src",'/imagefiles/' + result.id + '/data');
+									data.context = $('.uploadfile').css('display','none');
+									utils.showAlert('Success','the file uploaded successfully','alert-success');
+									app.imagepostview.changeFileId(result.id);
+				       	 	})
+							.error(function (jqXHR, textStatus, errorThrown){
+								 utils.showAlert('Error','...', 'alert-error');
+							});
+						});
+			}
+		});
+	}
 
 };

@@ -13,7 +13,6 @@ window.ImagePost = Backbone.Model.extend({
 
         this.validators.filename = function (value) {
 			console.log("Validate filename");
-			console.log("Validate imagefileid");
 			if (value.length > 0){
 				console.log("Valid");
 				return {isValid: true};
@@ -31,7 +30,7 @@ window.ImagePost = Backbone.Model.extend({
 				return {isValid: true};
 			}
 			else{
-				console.log("InValid");
+				console.log("InValid: " + value);
 				return {isValid: false, message: "You must upload an Image"};
 			}
         };

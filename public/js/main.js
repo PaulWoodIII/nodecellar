@@ -48,16 +48,23 @@ var AppRouter = Backbone.Router.extend({
 		
         var imagepost = new ImagePost({_id: id});
 
-        $("#content").html(new ImagePostView(imagepost).el);
+		this.imagepostview = new ImagePostView(imagepost);
+        $('#content').html(this.imagepostview.el);
+	
 		
         this.headerView.selectMenuItem();
     },
 
 	addImagePost: function() {
 		console.log('add image post main.js');
-        var imagepost = new ImagePost();
-        $('#content').html(new ImagePostView(imagepost).el);
+        var imagepost = new ImagePost();		
+		this.imagepostview = new ImagePostView(imagepost);
+        $('#content').html(this.imagepostview.el);
+		
+		
+		
         this.headerView.selectMenuItem('add-menu');
+		utils.addupload();
 	},
 
 	wineslist: function(page) {
@@ -113,7 +120,6 @@ var AppRouter = Backbone.Router.extend({
         $('#content').html(this.aboutView.el);
         this.headerView.selectMenuItem('about-menu');
     }
-
 });
 
 utils.loadTemplate(['HomeView', 'HeaderView', 'ImagePostListItemView', 'ImagePostView', 'WineView', 'CupView', 'WineListItemView','CupListItemView', 'AboutView'], function() {
