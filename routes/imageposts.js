@@ -11,11 +11,11 @@ var mongo = require('mongodb'),
 	multipart = require('connect-multipart-gridform');
 		
 var server = new Server('localhost', 27017, {auto_reconnect: true});
-var db = new Db('winedb', server, {safe: true});
+var db = new Db('imagepostsdb', server, {safe: true});
 
 db.open(function(err, db) {
     if(!err) {
-        console.log("Connected to 'winedb' database");
+        console.log("Connected to 'imagepostsdb' database");
         db.collection('imageposts', {safe:true}, function(err, collection) {
             if (err) {
                 console.log("The 'imageposts' collection doesn't exist. Creating it with sample data...");
@@ -26,6 +26,17 @@ db.open(function(err, db) {
         });
     }
 });
+
+/*
+
+************************************************************************************
+
+IMAGE POST
+
+************************************************************************************
+
+*/
+
 
 exports.findAll = function(req,res){
   db.collection('imageposts', {safe:true}, function(err, collection) {
@@ -101,7 +112,7 @@ exports.deleteImagePost = function(req, res) {
 
 ************************************************************************************
 
-IMAGE POST
+IMAGE FILES
 
 ************************************************************************************
 
@@ -172,7 +183,7 @@ exports.addImageFile = function(req, res){
 
 ************************************************************************************
 
-HELPER
+HELPERS
 
 ************************************************************************************
 

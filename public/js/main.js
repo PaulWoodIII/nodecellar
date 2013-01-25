@@ -7,18 +7,8 @@ var AppRouter = Backbone.Router.extend({
         "imageposts"	          : "imagePostList",
         "imageposts/page/:page"	  : "imagePostList",
         "imageposts/add"          : "addImagePost",
-        "imageposts/:id"          : "imagePostDetails",
-        
-		"wines"	            : "wineslist",
-        "wines/page/:page"	: "wineslist",
-        "wines/add"         : "addWine",
-        "wines/:id"         : "wineDetails",
-
-		"cups"	            : "list",
-        "cups/page/:page"	: "list",
-        "cups/add"          : "addCup",
-        "cups/:id"          : "cupDetails"
-
+        "imageposts/:id"          : "imagePostDetails"
+		
     },
 
     initialize: function () {
@@ -66,53 +56,7 @@ var AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem('add-menu');
 		utils.addupload();
 	},
-
-	wineslist: function(page) {
-        var p = page ? parseInt(page, 10) : 1;
-        var wineList = new WineCollection();
-        wineList.fetch({success: function(){
-            $("#content").html(new WineListView({model: wineList, page: p}).el);
-        }});
-        this.headerView.selectMenuItem('browse-menu');
-    },
 	
-	list: function(page) {
-        var p = page ? parseInt(page, 10) : 1;
-        var cupList = new CupCollection();
-        cupList.fetch({success: function(){
-            $("#content").html(new CupListView({model: cupList, page: p}).el);
-        }});
-        this.headerView.selectMenuItem('home-menu');
-    },
-
-    cupDetails: function (id) {
-        var cup = new Cup({_id: id});
-        cup.fetch({success: function(){
-            $("#content").html(new CupView({model: cup}).el);
-        }});
-        this.headerView.selectMenuItem();
-    },
-
-	addCup: function() {
-        var cup = new Cup();
-        $('#content').html(new CupView({model: cup}).el);
-        this.headerView.selectMenuItem('add-menu');
-	},
-
-    wineDetails: function (id) {
-        var wine = new Wine({_id: id});
-        wine.fetch({success: function(){
-            $("#content").html(new WineView({model: wine}).el);
-        }});
-        this.headerView.selectMenuItem();
-    },
-
-	addWine: function() {
-        var wine = new Wine();
-        $('#content').html(new WineView({model: wine}).el);
-        this.headerView.selectMenuItem('add-menu');
-	},
-
     about: function () {
         if (!this.aboutView) {
             this.aboutView = new AboutView();
@@ -122,7 +66,7 @@ var AppRouter = Backbone.Router.extend({
     }
 });
 
-utils.loadTemplate(['HomeView', 'HeaderView', 'ImagePostListItemView', 'ImagePostView', 'WineView', 'CupView', 'WineListItemView','CupListItemView', 'AboutView'], function() {
+utils.loadTemplate(['HomeView', 'HeaderView', 'ImagePostListItemView', 'ImagePostView', 'AboutView'], function() {
     app = new AppRouter();
     Backbone.history.start();
 });

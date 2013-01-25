@@ -12,8 +12,6 @@ This application is not ready for a production use yet but you can do the regula
 
 ## To Do
 
-* Remove Wine and Cups
-
 * Create a Post Object
 
 * Form for Posting Images
